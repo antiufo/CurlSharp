@@ -18,7 +18,7 @@
  **************************************************************************/
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace CurlSharp
@@ -29,7 +29,7 @@ namespace CurlSharp
     public class CurlMulti : IDisposable
     {
         // private members
-        private readonly Hashtable _htEasy;
+        private readonly Dictionary<IntPtr, CurlEasy> _htEasy;
         private int _maxFd;
         private CurlMultiInfo[] _multiInfo;
         private bool _bGotMultiInfo;
@@ -69,7 +69,7 @@ namespace CurlSharp
 #endif
             _multiInfo = null;
             _bGotMultiInfo = false;
-            _htEasy = new Hashtable();
+            _htEasy = new Dictionary<IntPtr, CurlEasy>();
         }
 
         /// <summary>

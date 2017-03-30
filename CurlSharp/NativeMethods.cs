@@ -57,6 +57,7 @@ namespace CurlSharp
             Win32
         }
 
+#if !CORECLR
         internal static string AssemblyDirectory
         {
             get
@@ -67,6 +68,7 @@ namespace CurlSharp
                 return Path.GetDirectoryName(path);
             }
         }
+#endif
 
         internal static NETPlatformType PlatformType { get; set; } = NETPlatformType.Unknown;
 
@@ -88,19 +90,24 @@ namespace CurlSharp
                     break;
             }
 
+#if !CORECLR
             if ((type == NETPlatformType.Win32) || (type == NETPlatformType.Win64))
             {
                 var path = Path.Combine(AssemblyDirectory, dllSubFolder);
                 SetDllDirectory(path);
             }
+#endif
 
             return type;
         }
 
         internal static NETPlatformType GetPlatformType()
         {
+#if CORECLR
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return IntPtr.Size == 8 ? NETPlatformType.Win64 : NETPlatformType.Win32;
+            return NETPlatformType.Unix;
+#else
             var type = NETPlatformType.Unknown;
-
             if ((Type.GetType("Mono.Runtime") != null) && (Environment.OSVersion.Platform == PlatformID.Unix))
                 type = NETPlatformType.Unix;
             else if (Environment.OSVersion.Platform == PlatformID.MacOSX)
@@ -117,6 +124,7 @@ namespace CurlSharp
                 }
 
             return type;
+#endif
         }
 
         // internal delegates from cURL

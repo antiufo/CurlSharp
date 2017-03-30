@@ -1,16 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <VersionPrefix>0.6.3.0</VersionPrefix>
-    <TargetFramework>net46</TargetFramework>
+    <VersionPrefix>0.6.3.1</VersionPrefix>
+    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <AssemblyOriginatorKeyFile>..\CurlSharpKey.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <Description>Strong named, netstandard-compatible version of CurlSharp.</Description>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\**\*.cs" Exclude="..\obj\**\*.cs;..\Shaman.CurlSharp\**\*.cs;..\Properties\**\*.cs" />
   </ItemGroup>
-
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <DefineConstants>$(DefineConstants);CORECLR</DefineConstants>
+  </PropertyGroup>
 </Project>
